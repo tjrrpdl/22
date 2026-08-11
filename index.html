@@ -3,447 +3,203 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#111827">
-<title>22 HUB</title>
+<title>22 HUB v6</title>
 <style>
-:root{
-  --bg:#f5f6f8;--card:#fff;--text:#15171a;--muted:#727986;--line:#e6e9ee;
-  --soft:#f0f2f5;--accent:#111827;--accent2:#374151;--shadow:0 10px 30px rgba(15,23,42,.07);
-  --ok:#166534;--warn:#92400e
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif;background:var(--bg);color:var(--text)}
-.shell{max-width:1120px;margin:auto;padding:16px 16px 96px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 2px 16px}
-.brand b{font-size:28px}.brand span{display:block;font-size:13px;color:var(--muted);margin-top:3px}
-.btn{border:0;border-radius:12px;padding:10px 13px;font-weight:800;cursor:pointer;background:var(--soft);color:var(--text);text-decoration:none;display:inline-block}
-.btn.dark{background:var(--accent);color:#fff}
-.btn.sm{padding:7px 10px;font-size:12px}
-.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px}
-.tab{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:12px;text-align:center;font-weight:850;cursor:pointer}
-.section{display:none}.section.active{display:block}
-.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow)}
-.grid{display:grid;grid-template-columns:1.45fr 1fr;gap:16px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-h2{margin:0 0 12px;font-size:18px}
-.kicker{font-size:12px;color:var(--muted);font-weight:900;letter-spacing:.06em}
-.hero{font-size:30px;font-weight:950;margin:5px 0 7px}
-.muted{color:var(--muted)}
-.status{font-size:13px;padding:10px 12px;border-radius:12px;background:var(--soft);margin-bottom:12px}
-.status.ok{color:var(--ok)} .status.warn{color:var(--warn)}
-.searchWrap{position:relative;margin-top:14px}
-.searchWrap input{width:100%;padding:14px 15px;border:1px solid var(--line);border-radius:14px;font:inherit;outline:none;background:#fff}
-.searchWrap input:focus{border-color:#9ca3af;box-shadow:0 0 0 3px #f3f4f6}
-.results{display:none;position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:50;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 30px rgba(0,0,0,.12);max-height:280px;overflow:auto}
-.result{padding:11px 13px;border-bottom:1px solid var(--line);cursor:pointer}.result:last-child{border-bottom:0}.result:hover{background:var(--soft)}
-.currentBox{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}
-.mini{padding:14px;border-radius:16px;background:var(--soft)}
-.mini .label{font-size:11px;font-weight:900;color:var(--muted);letter-spacing:.05em}
-.mini .subject{font-size:20px;font-weight:900;margin-top:5px}.mini .meta{font-size:12px;color:var(--muted);margin-top:5px}
-.lessons{display:grid;gap:4px;margin-top:14px}
-.lesson{display:grid;grid-template-columns:74px 1fr auto;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
-.lesson:last-child{border-bottom:0}.lesson.now{background:#f8fafc;margin:0 -8px;padding:11px 8px;border-radius:12px}
-.period{font-weight:900}.room{font-size:11px;background:var(--soft);padding:5px 8px;border-radius:999px;color:var(--muted);max-width:120px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
-.time{font-size:11px;color:var(--muted);margin-top:3px}
-.events{display:grid;gap:8px}.event{display:grid;grid-template-columns:72px 1fr auto;gap:10px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:14px}
-.badge{font-size:11px;font-weight:850;background:var(--soft);padding:5px 8px;border-radius:999px}
-.week{overflow:auto}table{width:100%;border-collapse:collapse;min-width:760px}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:center;font-size:13px;vertical-align:top}
-th{font-size:12px;color:var(--muted)}td.today{background:#fafafa}.cellSubject{font-weight:850}.cellMeta{font-size:10px;color:var(--muted);margin-top:4px;line-height:1.35}
-.subjects{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.subjectCard{padding:16px;border:1px solid var(--line);border-radius:15px;background:#fafafa;font-weight:850}.subjectCard small{display:block;color:var(--muted);font-weight:600;margin-top:5px}
-.note{padding:13px;background:var(--soft);border-radius:14px;font-size:13px;color:var(--muted)}
-.bottom{display:none}
-@media(max-width:760px){
- .grid,.grid2{grid-template-columns:1fr}.tabs{display:none}.subjects{grid-template-columns:1fr 1fr}.currentBox{grid-template-columns:1fr 1fr}
- .hero{font-size:27px}.brand b{font-size:25px}
- .bottom{display:grid;position:fixed;left:10px;right:10px;bottom:10px;grid-template-columns:repeat(5,1fr);background:rgba(255,255,255,.95);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 12px 38px rgba(0,0,0,.14)}
- .bottom button{border:0;background:transparent;padding:11px 2px;font-size:11px;font-weight:800}.bottom b{display:block;font-size:18px;margin-bottom:2px}
-}
+:root{--bg:#f5f6f8;--card:#fff;--text:#15171a;--muted:#727986;--line:#e7e9ee;--soft:#f1f3f6;--accent:#111827}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+.wrap{max-width:1100px;margin:auto;padding:18px 18px 90px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+h1{margin:0;font-size:30px}.sub{color:var(--muted);font-size:13px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:16px}
+h2{font-size:18px;margin:0 0 12px}.btn{border:0;border-radius:12px;padding:10px 13px;font-weight:800;background:var(--soft);cursor:pointer}.btn.dark{background:var(--accent);color:#fff}
+.note{background:var(--soft);padding:12px;border-radius:12px;color:var(--muted);font-size:13px}.events{display:grid;gap:8px}.event{border:1px solid var(--line);border-radius:14px;padding:12px}
+.actions{display:flex;gap:6px;margin-top:8px}.actions button{border:0;border-radius:9px;padding:6px 8px;background:var(--soft);font-size:11px;font-weight:700}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);align-items:center;justify-content:center;padding:20px}.modal-bg.open{display:flex}.modal{background:#fff;border-radius:18px;padding:18px;width:min(600px,100%)}.form{display:grid;grid-template-columns:1fr 1fr;gap:10px}.full{grid-column:1/-1}
+label{display:block;font-size:12px;font-weight:700;margin-bottom:5px}input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;font:inherit}
+@media(max-width:720px){.grid,.form{grid-template-columns:1fr}.full{grid-column:auto}}
 </style>
 </head>
 <body>
-<div class="shell">
-<header class="top">
-  <div class="brand"><b>22 HUB</b><span>놀놀 공공 · 2학년 2반 전용 HUB</span></div>
-  <button class="btn sm" onclick="forgetStudent()">학생 변경</button>
-</header>
-
-<nav class="tabs">
- <div class="tab" onclick="show('home')">🏠 홈</div>
- <div class="tab" onclick="show('timetable')">📅 내 시간표</div>
- <div class="tab" onclick="show('schedule')">✅ 일정</div>
- <div class="tab" onclick="show('resources')">📚 자료</div>
- <div class="tab" onclick="show('notice')">📢 공지</div>
-</nav>
-
-<section id="home" class="section active">
- <div class="grid">
-  <div class="card">
-    <div class="kicker">MY TIMETABLE</div>
-    <div class="hero" id="helloTitle">내 시간표 불러오는 중</div>
-    <div class="muted" id="studentMeta">시간표 원본 데이터를 연결하고 있습니다.</div>
-
-    <div id="loadStatus" class="status" style="margin-top:14px">⏳ 시간표 데이터를 불러오는 중...</div>
-
-    <div id="studentPicker" style="display:none">
-      <div class="searchWrap">
-        <input id="studentSearch" autocomplete="off" placeholder="2반 학생 이름 또는 학번 검색">
-        <div id="searchResults" class="results"></div>
-      </div>
-      <div class="note" style="margin-top:10px">한 번 선택하면 이 기기에만 저장되어 다음 접속부터 자동으로 내 시간표가 표시됩니다.</div>
-    </div>
-
-    <div id="myDashboard" style="display:none">
-      <div class="currentBox">
-        <div class="mini">
-          <div class="label">지금</div>
-          <div class="subject" id="nowSubject">-</div>
-          <div class="meta" id="nowMeta">-</div>
-        </div>
-        <div class="mini">
-          <div class="label">다음</div>
-          <div class="subject" id="nextSubject">-</div>
-          <div class="meta" id="nextMeta">-</div>
-        </div>
-      </div>
-      <div class="lessons" id="todayLessons"></div>
-    </div>
+<div class="wrap">
+  <div class="top">
+    <div><h1>22 HUB</h1><div class="sub">2학년 2반 전용 HUB</div></div>
+    <button class="btn dark" onclick="openModal()">＋ 수행평가 추가</button>
   </div>
 
-  <div class="card">
-    <h2>🔥 가까운 일정</h2>
-    <div id="homeEvents" class="events"></div>
+  <div class="grid">
+    <section class="card">
+      <h2>🍚 오늘의 급식</h2>
+      <div id="mealBox" class="note">급식 정보를 불러오는 중...</div>
+    </section>
+
+    <section class="card">
+      <h2>📅 가까운 학사일정</h2>
+      <div id="schoolScheduleBox" class="note">학사일정을 불러오는 중...</div>
+    </section>
   </div>
- </div>
 
- <div class="grid2" style="margin-top:16px">
-  <div class="card"><h2>📢 오늘의 2반</h2><div class="note">공지사항을 여기에 등록할 예정입니다.</div></div>
-  <div class="card"><h2>🧻 생활 편의</h2><div class="note">휴지 확인 · 체육 후 환기 · 교실 불편사항 빠른 전달</div></div>
- </div>
-</section>
+  <section class="card">
+    <h2>✅ 다가오는 수행평가</h2>
+    <div id="assessmentList" class="events"></div>
+    <div id="firebaseStatus" class="sub" style="margin-top:10px"></div>
+  </section>
 
-<section id="timetable" class="section">
- <div class="card">
-   <h2>📅 내 주간 시간표</h2>
-   <div class="muted" id="weekOwner" style="margin-bottom:12px">학생을 먼저 선택해 주세요.</div>
-   <div class="week"><table id="weekTable"></table></div>
-   <div style="margin-top:14px">
-    <a class="btn" target="_blank" href="https://ironmins.github.io/school_timetable_integration_program/student_timetable_2026_2">원본 시간표 페이지 ↗</a>
-   </div>
- </div>
-</section>
-
-<section id="schedule" class="section">
- <div class="card"><h2>✅ 시험 · 수행평가 · 과제</h2><div id="allEvents" class="events"></div></div>
-</section>
-
-<section id="resources" class="section">
- <div class="card">
-  <h2>📚 과목별 자료 HUB</h2>
-  <div class="subjects">
-   <div class="subjectCard">📐 수학<small>시험범위 · 공유자료</small></div>
-   <div class="subjectCard">🇬🇧 영어<small>본문 · 추가지문</small></div>
-   <div class="subjectCard">🧪 화학<small>프린트 · 요약자료</small></div>
-   <div class="subjectCard">⚛️ 물리학<small>필기 · 문제자료</small></div>
-   <div class="subjectCard">🧬 생명과학<small>필기 · 문제자료</small></div>
-   <div class="subjectCard">➕ 선택과목<small>기타 과목 자료</small></div>
-  </div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
-   <button class="btn dark" onclick="alert('다음 단계에서 Google Drive/Form을 연결하면 됩니다.')">자료 공유</button>
-   <button class="btn" onclick="alert('다음 단계에서 자료 요청 폼을 연결하면 됩니다.')">자료 요청</button>
-  </div>
- </div>
-</section>
-
-<section id="notice" class="section">
- <div class="grid2">
-  <div class="card"><h2>📢 중요 공지</h2><div class="note">등록된 공지가 없습니다.</div></div>
-  <div class="card"><h2>🏫 교실 생활</h2><div class="note">환기 · 휴지 · 이동수업 · 준비물 등 반 생활에 필요한 내용을 정리합니다.</div></div>
- </div>
-</section>
+  <section class="card">
+    <h2>📅 내 시간표</h2>
+    <div class="note">v5의 학생별 시간표 기능을 다음 단계에서 이 영역에 다시 통합합니다.</div>
+  </section>
 </div>
 
-<nav class="bottom">
- <button onclick="show('home')"><b>🏠</b>홈</button>
- <button onclick="show('timetable')"><b>📅</b>시간표</button>
- <button onclick="show('schedule')"><b>✅</b>일정</button>
- <button onclick="show('resources')"><b>📚</b>자료</button>
- <button onclick="show('notice')"><b>📢</b>공지</button>
-</nav>
+<div id="modalBg" class="modal-bg">
+  <div class="modal">
+    <h2 id="modalTitle">수행평가 일정 추가</h2>
+    <input type="hidden" id="editId">
+    <div class="form">
+      <div><label>과목</label><input id="subject" placeholder="예: 화학"></div>
+      <div><label>종류</label><select id="type"><option>수행평가</option><option>과제</option><option>시험</option><option>기타</option></select></div>
+      <div class="full"><label>제목</label><input id="title" placeholder="예: 중화적정 보고서"></div>
+      <div><label>날짜</label><input id="date" type="date"></div>
+      <div><label>작성자 표시(선택)</label><input id="writer" placeholder="예: 2반 학생"></div>
+      <div class="full"><label>메모</label><textarea id="memo"></textarea></div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px">
+      <button class="btn" onclick="closeModal()">취소</button>
+      <button class="btn dark" onclick="saveAssessment()">저장</button>
+    </div>
+  </div>
+</div>
 
-<script>
-const SOURCE_RAW = "https://raw.githubusercontent.com/ironmins/school_timetable_integration_program/main/student_timetable_2026_2.html";
-const SOURCE_PAGE = "https://ironmins.github.io/school_timetable_integration_program/student_timetable_2026_2";
-const CLASS_FILTER = "2-2";
+<script type="module">
+const APP_CONFIG = {
+  neis: {
+    key: "",
+    eduCode: "",
+    schoolCode: ""
+  },
+  firebase: {
+    apiKey: "",
+    authDomain: "",
+    projectId: "",
+    storageBucket: "",
+    messagingSenderId: "",
+    appId: ""
+  }
+};
 
-let allStudents = [];
-let bellSchedule = {};
-let selectedStudent = null;
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+import {
+  getFirestore, collection, addDoc, updateDoc, deleteDoc, doc,
+  onSnapshot, query, orderBy, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
-const events = [
-  {date:"2026-08-20",type:"수행",subject:"화학",title:"수행평가"},
-  {date:"2026-08-24",type:"과제",subject:"수학",title:"보고서 제출"},
-  {date:"2026-09-20",type:"시험",subject:"전체",title:"중간고사"}
-];
+let db = null;
+let assessments = [];
 
-function show(id){
- document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
- document.getElementById(id).classList.add("active");
- window.scrollTo({top:0,behavior:"smooth"});
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function dday(s){const n=new Date();n.setHours(0,0,0,0);const d=new Date(s+"T00:00:00");const x=Math.ceil((d-n)/86400000);return x===0?"D-DAY":x>0?"D-"+x:"D+"+Math.abs(x);}
+
+function renderAssessments(){
+  const box=document.getElementById("assessmentList");
+  box.innerHTML=assessments.length?assessments.map(e=>`
+    <div class="event">
+      <b>${esc(e.subject)} · ${esc(e.title)}</b><br>
+      <span class="sub">${esc(e.date)} · ${dday(e.date)} · ${esc(e.type)}</span>
+      ${e.memo?`<div class="sub">${esc(e.memo)}</div>`:""}
+      <div class="actions">
+        <button onclick="editAssessment('${e.id}')">수정</button>
+        <button onclick="deleteAssessment('${e.id}')">삭제</button>
+      </div>
+    </div>`).join(""):`<div class="note">등록된 수행평가 일정이 없습니다.</div>`;
 }
 
-function sidOf(s){
- const p=String(s.homeroom||"").split("-");
- if(p.length===2 && s.number) return p[0]+String(p[1]).padStart(2,"0")+String(s.number).padStart(2,"0");
- return "";
+async function initFirebase(){
+  const s=document.getElementById("firebaseStatus");
+  if(!APP_CONFIG.firebase.apiKey || !APP_CONFIG.firebase.projectId || !APP_CONFIG.firebase.appId){
+    s.textContent="Firebase 설정값을 넣으면 학생들이 같은 일정을 실시간으로 공유할 수 있습니다.";
+    renderAssessments();
+    return;
+  }
+  try{
+    const app=initializeApp(APP_CONFIG.firebase);
+    const auth=getAuth(app);
+    db=getFirestore(app);
+    await signInAnonymously(auth);
+    s.textContent="실시간 공유 연결됨";
+    const q=query(collection(db,"assessments"),orderBy("date","asc"));
+    onSnapshot(q,snap=>{
+      assessments=snap.docs.map(d=>({id:d.id,...d.data()}));
+      renderAssessments();
+    });
+  }catch(e){s.textContent="Firebase 연결 실패: "+e.message;}
 }
 
-function extractInjectedJson(text, name, nextName){
- const startMarker = "const " + name + " = ";
- const start = text.indexOf(startMarker);
- if(start < 0) throw new Error(name+" 데이터 위치를 찾지 못했습니다.");
- const valueStart = start + startMarker.length;
- const endMarker = nextName ? ";\n    const " + nextName + " =" : ";\n";
- let end = text.indexOf(endMarker, valueStart);
- if(end < 0 && nextName) end = text.indexOf("; const " + nextName + " =", valueStart);
- if(end < 0) throw new Error(name+" 데이터 끝을 찾지 못했습니다.");
- return JSON.parse(text.slice(valueStart,end).trim());
+window.openModal=function(){
+  document.getElementById("editId").value="";
+  ["subject","title","date","writer","memo"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("type").value="수행평가";
+  document.getElementById("modalTitle").textContent="수행평가 일정 추가";
+  document.getElementById("modalBg").classList.add("open");
+}
+window.closeModal=function(){document.getElementById("modalBg").classList.remove("open");}
+window.editAssessment=function(id){
+  const e=assessments.find(x=>x.id===id); if(!e)return;
+  document.getElementById("editId").value=id;
+  document.getElementById("subject").value=e.subject||"";
+  document.getElementById("type").value=e.type||"수행평가";
+  document.getElementById("title").value=e.title||"";
+  document.getElementById("date").value=e.date||"";
+  document.getElementById("writer").value=e.writer||"";
+  document.getElementById("memo").value=e.memo||"";
+  document.getElementById("modalTitle").textContent="수행평가 일정 수정";
+  document.getElementById("modalBg").classList.add("open");
+}
+window.saveAssessment=async function(){
+  if(!db){alert("Firebase 설정이 먼저 필요합니다.");return;}
+  const id=document.getElementById("editId").value;
+  const data={
+    subject:document.getElementById("subject").value.trim(),
+    type:document.getElementById("type").value,
+    title:document.getElementById("title").value.trim(),
+    date:document.getElementById("date").value,
+    writer:document.getElementById("writer").value.trim(),
+    memo:document.getElementById("memo").value.trim(),
+    updatedAt:serverTimestamp()
+  };
+  if(!data.subject||!data.title||!data.date){alert("과목, 제목, 날짜를 입력해 주세요.");return;}
+  if(id) await updateDoc(doc(db,"assessments",id),data);
+  else {data.createdAt=serverTimestamp(); await addDoc(collection(db,"assessments"),data);}
+  closeModal();
+}
+window.deleteAssessment=async function(id){
+  if(!db)return;
+  if(confirm("이 일정을 삭제할까요? 모든 학생 화면에서 사라집니다.")) await deleteDoc(doc(db,"assessments",id));
 }
 
-async function loadTimetableData(){
- const status=document.getElementById("loadStatus");
- try{
-   status.textContent="⏳ 실제 학생별 시간표 데이터를 불러오는 중...";
-   const res=await fetch(SOURCE_RAW,{cache:"force-cache"});
-   if(!res.ok) throw new Error("HTTP "+res.status);
-   const text=await res.text();
-
-   allStudents=extractInjectedJson(text,"allStudents","allTeacherSchedules");
-   bellSchedule=extractInjectedJson(text,"bellSchedule","weeklyScheduleData");
-
-   allStudents.forEach(s=>{
-     if(!s.uniqueId) s.uniqueId=(s.name||"")+"||"+(s.homeroom||"")+"||"+(s.number||"");
-   });
-
-   const classStudents=allStudents.filter(s=>String(s.homeroom||"").trim()===CLASS_FILTER);
-   status.className="status ok";
-   status.textContent="✅ 실제 시간표 연결 완료 · 2-2 학생 "+classStudents.length+"명 확인";
-   setTimeout(()=>{status.style.display="none"},1800);
-
-   const saved=localStorage.getItem("22hub_student");
-   if(saved){
-     selectedStudent=classStudents.find(s=>s.uniqueId===saved) || null;
-   }
-   setupSearch(classStudents);
-   if(selectedStudent) renderStudent(selectedStudent);
-   else showPicker();
- }catch(err){
-   console.error(err);
-   status.className="status warn";
-   status.innerHTML="⚠️ 자동 연동에 실패했습니다. <a href='"+SOURCE_PAGE+"' target='_blank'>원본 시간표 열기 ↗</a><br><span class='muted'>"+escapeHtml(err.message)+"</span>";
-   showPicker();
- }
+function ymd(d){return d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0");}
+async function loadMeal(){
+  const box=document.getElementById("mealBox");
+  if(!APP_CONFIG.neis.eduCode||!APP_CONFIG.neis.schoolCode){box.textContent="NEIS 학교 코드를 넣으면 오늘 급식이 자동으로 표시됩니다.";return;}
+  try{
+    const p=new URLSearchParams({Type:"json",pIndex:"1",pSize:"10",ATPT_OFCDC_SC_CODE:APP_CONFIG.neis.eduCode,SD_SCHUL_CODE:APP_CONFIG.neis.schoolCode,MLSV_YMD:ymd(new Date())});
+    if(APP_CONFIG.neis.key)p.set("KEY",APP_CONFIG.neis.key);
+    const data=await (await fetch("https://open.neis.go.kr/hub/mealServiceDietInfo?"+p)).json();
+    const rows=data?.mealServiceDietInfo?.[1]?.row||[];
+    const row=rows.find(r=>String(r.MMEAL_SC_NM||"").includes("중식"))||rows[0];
+    box.innerHTML=row?String(row.DDISH_NM||"").replace(/<br\s*\/?>/gi,"<br>"):"오늘 등록된 급식이 없습니다.";
+  }catch(e){box.textContent="급식 정보를 불러오지 못했습니다.";}
 }
-
-function showPicker(){
- document.getElementById("studentPicker").style.display="";
- document.getElementById("myDashboard").style.display="none";
- document.getElementById("helloTitle").textContent="내 시간표 설정";
- document.getElementById("studentMeta").textContent="2반 학생을 검색해 한 번만 선택하세요.";
+async function loadSchoolSchedule(){
+  const box=document.getElementById("schoolScheduleBox");
+  if(!APP_CONFIG.neis.eduCode||!APP_CONFIG.neis.schoolCode){box.textContent="NEIS 학교 코드를 넣으면 학사일정이 자동으로 표시됩니다.";return;}
+  try{
+    const from=new Date(),to=new Date();to.setDate(to.getDate()+45);
+    const p=new URLSearchParams({Type:"json",pIndex:"1",pSize:"30",ATPT_OFCDC_SC_CODE:APP_CONFIG.neis.eduCode,SD_SCHUL_CODE:APP_CONFIG.neis.schoolCode,AA_FROM_YMD:ymd(from),AA_TO_YMD:ymd(to)});
+    if(APP_CONFIG.neis.key)p.set("KEY",APP_CONFIG.neis.key);
+    const data=await (await fetch("https://open.neis.go.kr/hub/SchoolSchedule?"+p)).json();
+    const rows=data?.SchoolSchedule?.[1]?.row||[];
+    box.innerHTML=rows.length?rows.slice(0,8).map(r=>`<div><b>${esc(r.AA_YMD)} · ${esc(r.EVENT_NM)}</b></div>`).join(""):"가까운 학사일정이 없습니다.";
+  }catch(e){box.textContent="학사일정을 불러오지 못했습니다.";}
 }
-
-function setupSearch(classStudents){
- const input=document.getElementById("studentSearch");
- const box=document.getElementById("searchResults");
- input.oninput=()=>{
-   const q=input.value.trim().toLowerCase();
-   if(!q){box.style.display="none";return;}
-   const matches=classStudents.filter(s=>{
-     const sid=sidOf(s);
-     return String(s.name||"").toLowerCase().includes(q) || sid.includes(q) || String(s.number||"").includes(q);
-   }).slice(0,12);
-   if(!matches.length){box.style.display="none";return;}
-   box.innerHTML=matches.map(s=>`<div class="result" data-uid="${escapeAttr(s.uniqueId)}"><b>${escapeHtml(s.name||"")}</b> <span class="muted">${sidOf(s)}</span></div>`).join("");
-   box.style.display="block";
-   box.querySelectorAll(".result").forEach(el=>el.onclick=()=>{
-     const s=classStudents.find(x=>x.uniqueId===el.dataset.uid);
-     if(s){
-       localStorage.setItem("22hub_student",s.uniqueId);
-       selectedStudent=s;
-       input.value="";box.style.display="none";
-       renderStudent(s);
-     }
-   });
- };
- document.addEventListener("click",e=>{if(!e.target.closest(".searchWrap")) box.style.display="none";});
-}
-
-function forgetStudent(){
- localStorage.removeItem("22hub_student");
- selectedStudent=null;
- show("home");
- showPicker();
- document.getElementById("weekOwner").textContent="학생을 먼저 선택해 주세요.";
- document.getElementById("weekTable").innerHTML="";
-}
-
-function parseCell(html){
- if(!html) return {subject:"",location:"",teacher:"",elective:""};
- const d=document.createElement("div");
- d.innerHTML=html;
- const subjects=[...d.querySelectorAll(".subject-name")].map(x=>x.textContent.trim()).filter(Boolean);
- const locations=[...d.querySelectorAll(".location-chip")].map(x=>x.textContent.trim()).filter(Boolean);
- const teachers=[...d.querySelectorAll(".teacher-name")].map(x=>x.textContent.trim()).filter(Boolean);
- const electives=[...d.querySelectorAll(".elective-class-badge")].map(x=>x.textContent.trim()).filter(Boolean);
- let subject=subjects.join(" / ");
- if(!subject){
-   subject=d.textContent.replace(/\s+/g," ").trim();
-   if(subject.length>28) subject=subject.slice(0,28)+"…";
- }
- return {subject,location:locations.join(" / "),teacher:teachers.join(" / "),elective:electives.join(" / ")};
-}
-
-function dayInfo(){
- const arr=["일","월","화","수","목","금","토"];
- const d=new Date().getDay();
- return {day:arr[d],index:d-1};
-}
-
-function parseBell(p){
- const v=bellSchedule && bellSchedule[p];
- if(!v) return null;
- const m=String(v).match(/(\d{1,2}):(\d{2})\s*[~\-]\s*(\d{1,2}):(\d{2})/);
- if(!m) return null;
- return {
-   label:String(v),
-   start:+m[1]*60 + +m[2],
-   end:+m[3]*60 + +m[4]
- };
-}
-
-function periodState(){
- const now=new Date(), mins=now.getHours()*60+now.getMinutes();
- let current=-1,next=-1;
- for(let p=1;p<=10;p++){
-   const b=parseBell(p); if(!b) continue;
-   if(mins>=b.start && mins<b.end){current=p;break;}
-   if(mins<b.start){next=p;break;}
- }
- if(current>0) next=current+1;
- return {current,next};
-}
-
-function renderStudent(s){
- selectedStudent=s;
- document.getElementById("studentPicker").style.display="none";
- document.getElementById("myDashboard").style.display="";
- document.getElementById("helloTitle").textContent=(s.name||"")+"의 오늘";
- document.getElementById("studentMeta").textContent=sidOf(s)+" · "+(s.homeroom||"")+"반";
- document.getElementById("weekOwner").textContent=(s.name||"")+" · "+sidOf(s);
-
- renderToday(s);
- renderWeek(s);
-}
-
-function renderToday(s){
- const {day,index}=dayInfo();
- const todayBox=document.getElementById("todayLessons");
- const state=periodState();
-
- if(index<0 || index>4 || !s.schedule || !s.schedule[day]){
-   document.getElementById("nowSubject").textContent="주말";
-   document.getElementById("nowMeta").textContent="오늘은 평일 수업이 없습니다.";
-   document.getElementById("nextSubject").textContent="월요일";
-   document.getElementById("nextMeta").textContent="주간 시간표에서 확인";
-   todayBox.innerHTML="<div class='note'>오늘은 평일 시간표가 없습니다.</div>";
-   return;
- }
-
- const max=(s.periodCounts && s.periodCounts[index]) || s.maxPeriods || 7;
- const parsed=[];
- for(let i=0;i<max;i++){
-   const c=parseCell(s.schedule[day][i]||"");
-   parsed.push(c);
- }
-
- const cp=state.current;
- if(cp>0 && cp<=parsed.length){
-   const c=parsed[cp-1];
-   document.getElementById("nowSubject").textContent=c.subject||"빈 시간";
-   document.getElementById("nowMeta").textContent=[c.location,c.teacher].filter(Boolean).join(" · ") || (parseBell(cp)?.label||"");
- }else{
-   document.getElementById("nowSubject").textContent="수업 전/쉬는 시간";
-   document.getElementById("nowMeta").textContent="시간표를 확인하세요.";
- }
-
- let np=state.next;
- if(np<1){
-   const now=new Date(), mins=now.getHours()*60+now.getMinutes();
-   for(let p=1;p<=parsed.length;p++){const b=parseBell(p);if(b&&mins<b.start){np=p;break;}}
- }
- if(np>0 && np<=parsed.length){
-   const c=parsed[np-1];
-   document.getElementById("nextSubject").textContent=c.subject||"빈 시간";
-   document.getElementById("nextMeta").textContent=np+"교시 · "+([c.location,c.teacher].filter(Boolean).join(" · ") || (parseBell(np)?.label||""));
- }else{
-   document.getElementById("nextSubject").textContent="오늘 수업 끝";
-   document.getElementById("nextMeta").textContent="수고했어!";
- }
-
- todayBox.innerHTML=parsed.map((c,i)=>{
-   const p=i+1,b=parseBell(p);
-   return `<div class="lesson ${p===cp?"now":""}">
-     <div><div class="period">${p}교시</div><div class="time">${b?escapeHtml(b.label):""}</div></div>
-     <div><b>${escapeHtml(c.subject||"-")}</b><div class="time">${escapeHtml(c.teacher||"")}</div></div>
-     <div class="room">${escapeHtml(c.location||"교실")}</div>
-   </div>`;
- }).join("");
-}
-
-function renderWeek(s){
- const days=["월","화","수","목","금"];
- const todayIndex=dayInfo().index;
- const max=s.maxPeriods || Math.max(...(s.periodCounts||[7]));
- let out="<tr><th>교시</th>"+days.map((d,i)=>`<th>${d}${i===todayIndex?" · 오늘":""}</th>`).join("")+"</tr>";
- for(let p=0;p<max;p++){
-   out+=`<tr><th>${p+1}</th>`;
-   days.forEach((d,di)=>{
-     const exists=p<((s.periodCounts&&s.periodCounts[di])||max);
-     const c=exists?parseCell((s.schedule[d]&&s.schedule[d][p])||""):{subject:"",location:"",teacher:""};
-     out+=`<td class="${di===todayIndex?"today":""}">
-       <div class="cellSubject">${escapeHtml(c.subject||"")}</div>
-       <div class="cellMeta">${escapeHtml([c.location,c.teacher].filter(Boolean).join(" · "))}</div>
-     </td>`;
-   });
-   out+="</tr>";
- }
- document.getElementById("weekTable").innerHTML=out;
-}
-
-function dd(date){
- const n=new Date(); n.setHours(0,0,0,0);
- const d=new Date(date+"T00:00:00");
- return Math.ceil((d-n)/86400000);
-}
-function eventHTML(arr){
- return arr.map(e=>{
-  const x=dd(e.date),label=x>=0?`D-${x}`:`D+${Math.abs(x)}`;
-  return `<div class="event"><div><b>${e.date.slice(5).replace("-","/")}</b><br><span class="muted">${label}</span></div><div><b>${escapeHtml(e.subject)} · ${escapeHtml(e.title)}</b></div><span class="badge">${escapeHtml(e.type)}</span></div>`;
- }).join("");
-}
-function renderEvents(){
- const sorted=[...events].sort((a,b)=>a.date.localeCompare(b.date));
- const future=sorted.filter(e=>dd(e.date)>=0);
- document.getElementById("homeEvents").innerHTML=eventHTML(future.slice(0,4)) || "<div class='note'>등록된 가까운 일정이 없습니다.</div>";
- document.getElementById("allEvents").innerHTML=eventHTML(sorted);
-}
-
-function escapeHtml(v){
- return String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
-}
-function escapeAttr(v){return escapeHtml(v);}
-
-renderEvents();
-loadTimetableData();
+loadMeal();loadSchoolSchedule();initFirebase();
 </script>
 </body>
 </html>
